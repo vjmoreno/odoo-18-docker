@@ -1,0 +1,20 @@
+# generated from manifests external_dependencies
+
+# account_financial_tools
+freezegun
+python-dateutil
+
+# oca_calendar
+cssselect
+openupgradelib
+
+# oca_web
+beautifulsoup4
+bokeh==3.6.3
+mpld3==0.5.10
+
+# odoo_argentina
+pysimplesoap==1.8.22
+httplib2>=0.7
+git+https://github.com/ingadhoc/pyafipws.git@odoo18
+M2Crypto
