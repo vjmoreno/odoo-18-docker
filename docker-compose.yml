@@ -10,11 +10,14 @@ services:
       - "8072:8072"
     volumes:
       - ./community:/odoo
-      - ./enterprise:/opt/odoo/enterprise
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
       - ./config/certs:/etc/odoo/certs
       - ./addons:/mnt/extra-addons
+      - ./addons/odoo-argentina:/mnt/extra-addons/odoo-argentina
+      - ./addons/account-financial-tools:/mnt/extra-addons/account-financial-tools
+      - ./addons/odoo-argentina-ce:/mnt/extra-addons/odoo-argentina-ce
+      - ./addons/odoo-argentina-codize:/mnt/extra-addons/odoo-argentina-codize
       - ./logs:/var/log/odoo
       - ./entrypoint.sh:/entrypoint.sh
     environment:
