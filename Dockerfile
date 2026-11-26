@@ -39,7 +39,6 @@ FROM python:3.11-slim
 # Solo dependencias de runtime (sin compiladores ni git)
 # Incluye las deps de wkhtmltopdf (fontconfig, X11) en el mismo bloque
 # para no tener que volver a correr apt-get update
-COPY wkhtmltox_0.12.6.1-3.bookworm_amd64.deb /tmp/wkhtmltopdf.deb
 RUN apt-get update && apt-get install -y --no-install-recommends \
     wget \
     node-less \
@@ -59,6 +58,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libxcb1 \
     libxext6 \
     libxrender1 \
+    && wget -q https://github.com/wkhtmltopdf/packaging/releases/download/0.12.6.1-3/wkhtmltox_0.12.6.1-3.bookworm_amd64.deb -O /tmp/wkhtmltopdf.deb \
     && apt-get install -y /tmp/wkhtmltopdf.deb \
     && rm /tmp/wkhtmltopdf.deb \
     && rm -rf /var/lib/apt/lists/* \

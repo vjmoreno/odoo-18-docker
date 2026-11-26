@@ -75,7 +75,7 @@ http://localhost:8069
 ### 6. Dar de baja los contenedores
 
 ```bash
-docker compose down -v
+docker compose down
 ```
 Esto eliminará los contenedores de Odoo y PostgreSQL, pero conservará la base de datos, configuraciones de Odoo, módulos y logs.
 

@@ -3,6 +3,8 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    depends_on:
+      - db
     ports:
       - "8069:8069"
       - "8072:8072"
@@ -12,35 +14,32 @@ services:
       - ./config:/etc/odoo
       - ./config/certs:/etc/odoo/certs
       - ./addons:/mnt/extra-addons
-      - ./addons/odoo-argentina:/mnt/extra-addons/odoo-argentina
-      - ./addons/account-financial-tools:/mnt/extra-addons/account-financial-tools
-      - ./addons/odoo-argentina-ce:/mnt/extra-addons/odoo-argentina-ce
-      - ./addons/odoo-argentina-codize:/mnt/extra-addons/odoo-argentina-codize
-      - ./addons/odoo-ocr:/mnt/extra-addons/odoo-ocr
-      - ./addons/odoo-llm:/mnt/extra-addons/odoo-llm
-      - ./addons/account-reconcile:/mnt/extra-addons/account-reconcile
-      - ./addons/contract:/mnt/extra-addons/contract
-      - ./addons/payroll:/mnt/extra-addons/payroll
-      - ./addons/knowledge_management:/mnt/extra-addons/knowledge_management
       - ./logs:/var/log/odoo
       - ./entrypoint.sh:/entrypoint.sh
-    networks:
-      - web_net
     environment:
-      - HOST=postgres_core
-      - USER=default_user
-      - PASSWORD=default_pass
-      - DB=odoo_fix
+      - HOST=db
+      - USER=odoo
+      - PASSWORD=odoo
+      - DB=odoo
       - PYTHONIOENCODING=utf-8
       - INIT_MODULES=base,web
     entrypoint: ["/entrypoint.sh"]
-    restart: "no"
-    # restart: always
+    restart: always
+
+  db:
+    image: postgres:15
+    environment:
+      - POSTGRES_DB=odoo
+      - POSTGRES_USER=odoo
+      - POSTGRES_PASSWORD=odoo
+    ports:
+      - "5432:5432"
+    volumes:
+      - odoo-db-data:/var/lib/postgresql/data
+    restart: always
 
 volumes:
   odoo-web-data:
-    name: odoo-docker_odoo-web-data
-
-networks:
-  web_net:
-    external: true  
+    name: odoo-18-docker_odoo-web-data
+  odoo-db-data:
+    name: odoo-18-docker_odoo-db-data
