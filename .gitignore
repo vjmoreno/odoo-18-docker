@@ -1,1 +1,7 @@
 logs
+config/certs
+.vscode
+addons
+app
+enterprise
+community

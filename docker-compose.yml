@@ -1,22 +1,29 @@
-version: '3.8'
-
 services:
   odoo:
-    image: odoo:18.0
+    build:
+      context: .
+      dockerfile: Dockerfile
     depends_on:
       - db
     ports:
       - "8069:8069"
+      - "8072:8072"
     volumes:
+      - ./community:/odoo
       - odoo-web-data:/var/lib/odoo
       - ./config:/etc/odoo
+      - ./config/certs:/etc/odoo/certs
       - ./addons:/mnt/extra-addons
       - ./logs:/var/log/odoo
+      - ./entrypoint.sh:/entrypoint.sh
     environment:
       - HOST=db
       - USER=odoo
       - PASSWORD=odoo
-    command: odoo -d odoo --db_user=odoo --db_password=odoo -i base
+      - DB=odoo
+      - PYTHONIOENCODING=utf-8
+      - INIT_MODULES=base,web
+    entrypoint: ["/entrypoint.sh"]
     restart: always
 
   db:
